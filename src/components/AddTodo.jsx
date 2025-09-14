@@ -2,8 +2,8 @@ import { useState } from "react";
 import { MdAddCard } from "react-icons/md";
 
 function AddTodo({ onNewItem }) {
-  const [todoName, setTodoName] = useState('');
-  const [todoDueDate, setTodoDueDate] = useState('');
+  const [todoName, setTodoName] = useState("");
+  const [todoDueDate, setTodoDueDate] = useState("");
 
   const handleNameChange = (event) => {
     setTodoName(event.target.value);
@@ -13,7 +13,8 @@ function AddTodo({ onNewItem }) {
     setTodoDueDate(event.target.value);
   };
 
-  const handleAddButtonCliced = () => {
+  const handleAddButtonCliced = (event) => {
+    event.preventDefault();
     onNewItem(todoName, todoDueDate);
     setTodoName("");
     setTodoDueDate("");
@@ -21,7 +22,7 @@ function AddTodo({ onNewItem }) {
 
   return (
     <div className="container">
-      <div className="row kg-row">
+      <form className="row kg-row" onSubmit={handleAddButtonCliced}>
         <div className="col-6">
           <input
             type="text"
@@ -31,22 +32,14 @@ function AddTodo({ onNewItem }) {
           ></input>
         </div>
         <div className="col-4">
-          <input
-            type="date"
-            value={todoDueDate}
-            onChange={handleDateChange}
-          />
+          <input type="date" value={todoDueDate} onChange={handleDateChange} />
         </div>
         <div className="col-2">
-          <button
-            type="button"
-            className="btn btn-success kg-button"
-            onClick={handleAddButtonCliced}
-          >
+          <button type="submit"  className="btn btn-success kg-button">
             <MdAddCard />
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
