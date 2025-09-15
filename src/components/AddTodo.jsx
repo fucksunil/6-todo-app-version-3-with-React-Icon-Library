@@ -1,23 +1,18 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { MdAddCard } from "react-icons/md";
 
 function AddTodo({ onNewItem }) {
-  const [todoName, setTodoName] = useState("");
-  const [todoDueDate, setTodoDueDate] = useState("");
 
-  const handleNameChange = (event) => {
-    setTodoName(event.target.value);
-  };
-
-  const handleDateChange = (event) => {
-    setTodoDueDate(event.target.value);
-  };
+  const todoNameElement = useRef();
+  const dueDateElement = useRef();
 
   const handleAddButtonCliced = (event) => {
     event.preventDefault();
-    onNewItem(todoName, todoDueDate);
-    setTodoName("");
-    setTodoDueDate("");
+    const todoName = todoNameElement.current.value;
+    const dueDate = dueDateElement.current.value;
+    todoNameElement.current.value = "";
+    dueDateElement.current.value = "";
+    onNewItem(todoName, dueDate);
   };
 
   return (
@@ -26,16 +21,18 @@ function AddTodo({ onNewItem }) {
         <div className="col-6">
           <input
             type="text"
+            ref={todoNameElement}
             placeholder="Enter Todo Here"
-            value={todoName}
-            onChange={handleNameChange}
           ></input>
         </div>
         <div className="col-4">
-          <input type="date" value={todoDueDate} onChange={handleDateChange} />
+          <input
+            type="date"
+            ref={dueDateElement}
+          />
         </div>
         <div className="col-2">
-          <button type="submit"  className="btn btn-success kg-button">
+          <button type="submit" className="btn btn-success kg-button">
             <MdAddCard />
           </button>
         </div>
